@@ -10,6 +10,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite3'
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+admin=Admin(app)
 
 class User(UserMixin,db.Model):#User and profile
     id=db.Column(db.Integer,primary_key=True)
@@ -18,6 +19,7 @@ class User(UserMixin,db.Model):#User and profile
     password=db.Column(db.String(30))
     image_link=db.Column(db.String(30))
     email=db.Column(db.String(30))
+    user_type=db.Column(db.Integer)
 class Posts(db.Model):#This is both replies to posts and posts them selfs replies are treated as posts 
     id=db.Column(db.Integer,primary_key=True)
     head=db.Column(db.Boolean)#Represents if it is a replie or not for generating feed
@@ -32,3 +34,23 @@ class Likes(db.Model):
     user_id=db.Column(db.Integer)
     post_id=db.Column(db.Integer)
 
+admin.add_view(ModelView(User,db.session))
+admin.add_view(ModelView(Posts,db.session))
+admin.add_view(ModelView(Reply,db.session))
+admin.add_view(ModelView(Likes,db.session))
+
+@app.route('/login',methods=['GET','POST'])
+def login():
+    pass
+@app.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    if(request.method=='GET'):
+        logout_user()
+        return redirect('/login')
+
+
+if __name__ == '__main__':
+    app.debug = True
+
+    app.run()   
