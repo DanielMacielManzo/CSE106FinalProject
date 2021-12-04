@@ -52,6 +52,9 @@ def logout():
     if(request.method=='GET'):
         logout_user()
         return redirect('/login')
+@app.route('/home',methods=['GET','POST'])
+def home():
+    return render_template("home.html")
 
 
 if __name__ == '__main__':
