@@ -41,7 +41,7 @@ admin.add_view(ModelView(Likes,db.session))
 
 @app.route('/login',methods=['GET','POST'])
 def login():
-    pass
+    return render_template("login.html")
 @app.route('/logout', methods=['GET'])
 @login_required
 def logout():
