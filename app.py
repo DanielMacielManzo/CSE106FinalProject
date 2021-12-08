@@ -22,7 +22,7 @@ class User(UserMixin,db.Model):#User and profile
     user_type=db.Column(db.Integer)
 class Posts(db.Model):#This is both replies to posts and posts them selfs replies are treated as posts 
     id=db.Column(db.Integer,primary_key=True)
-    head=db.Column(db.Boolean)#Represents if it is a replie or not for generating feed
+    head=db.Column(db.Boolean)#Represents if it is a reply or not for generating feed
     date=(db.String(30))#Can be used to sort feed by recenctcy 
     text=db.Column(db.String(30))
 class Reply(db.Model):
@@ -39,6 +39,9 @@ admin.add_view(ModelView(Posts,db.session))
 admin.add_view(ModelView(Reply,db.session))
 admin.add_view(ModelView(Likes,db.session))
 
+
+
+
 @app.route('/login',methods=['GET','POST'])
 def login():
     if(request.method=="POST"):
@@ -52,9 +55,12 @@ def logout():
     if(request.method=='GET'):
         logout_user()
         return redirect('/login')
+
 @app.route('/home',methods=['GET','POST'])
 def home():
     return render_template("home.html")
+
+
 
 
 if __name__ == '__main__':
