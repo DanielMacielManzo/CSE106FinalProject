@@ -10,6 +10,10 @@
     max-width: 100%;
 }
 
+.floating {
+    margin: 10px;
+}
+
 
 /* #content {
     width: 100%;
