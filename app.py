@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite3'
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 admin=Admin(app)
+app.secret_key = 'ASDASDDASDSAFA'
 
 class User(UserMixin,db.Model):#User and profile
     id=db.Column(db.Integer,primary_key=True)
@@ -45,10 +46,11 @@ admin.add_view(ModelView(Likes,db.session))
 @app.route('/login',methods=['GET','POST'])
 def login():
     if(request.method=="POST"):
-        user=request.args.get['username']
-        passs=request.args.get['password']
-    if(request.method=="GET"):
-        return render_template("login.html")
+        user=request.form['username']
+        passs=request.form['password']  
+        print(user)
+        print(passs)
+    return render_template("login.html")
 @app.route('/logout', methods=['GET'])
 @login_required
 def logout():
