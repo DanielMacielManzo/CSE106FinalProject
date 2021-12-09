@@ -94,6 +94,20 @@ def logout():
     if(request.method=='GET'):
         logout_user()
         return redirect('/login')
+@app.route('/create_user',methods=['GET','POST'])
+def creatUser():
+    if(request.method=="POST"):
+        user=request.form['username']
+        passs=request.form['password']  
+        email=request.form['email'] 
+        name=request.form['name']
+        User(user=user,name=name,email=email,password=passs,user_type=2)
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except:
+            print("User Already Exists")
+
 
 @app.route('/home',methods=['GET','POST'])
 def home():
