@@ -50,6 +50,22 @@ def login():
         passs=request.form['password']  
         print(user)
         print(passs)
+        try:
+            session.pop('user_id', None)
+            user=User.query.filter_by(username=user).first()
+            print(user.user_type)
+            if(user.password==passs):
+                session['user_id'] = user.id
+                #login_user(user)
+                if(int(user.user_type)==1):
+                    print("Valid Admin Login")
+                    return redirect('/admin')
+            else:
+                print("Wrong Password")
+        except:
+            print("User does not exist")
+            pass
+    
     return render_template("login.html")
 @app.route('/logout', methods=['GET'])
 @login_required
