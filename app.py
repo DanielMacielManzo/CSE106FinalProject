@@ -35,10 +35,30 @@ class Likes(db.Model):
     user_id=db.Column(db.Integer)
     post_id=db.Column(db.Integer)
 
-admin.add_view(ModelView(User,db.session))
-admin.add_view(ModelView(Posts,db.session))
-admin.add_view(ModelView(Reply,db.session))
-admin.add_view(ModelView(Likes,db.session))
+login=LoginManager(app)
+
+@login.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+class adminview(ModelView):
+    def is_accessible(self):
+        #print(current_user.user_type)
+        try:
+            if(int(current_user.user_type)==1):
+                print("TRUE")
+                return current_user.is_authenticated
+            else:
+                return False
+        except:
+            return False
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect("login")
+
+admin.add_view(adminview(User,db.session))
+admin.add_view(adminview(Posts,db.session))
+admin.add_view(adminview(Reply,db.session))
+admin.add_view(adminview(Likes,db.session))
 
 
 @app.route('/login',methods=['GET','POST'])
@@ -54,10 +74,13 @@ def login():
             print(user.user_type)
             if(user.password==passs):
                 session['user_id'] = user.id
-                #login_user(user)
+                login_user(user)
                 if(int(user.user_type)==1):
                     print("Valid Admin Login")
                     return redirect('/admin')
+                if(int(user.user_type)==2):
+                    print("Valid User Login")
+                    return redirect('/home')
             else:
                 print("Wrong Password")
         except:
