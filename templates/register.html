@@ -8,14 +8,16 @@
 <!--  -->
 {% block content %}
 
-<div id="login">
-    <h3 class="text-center text-black pt-5">Login Form</h3>
+<!-- Username, Password, Name, Email -->
+
+<div id="register">
+    <h3 class="text-center text-black pt-5">Register Form</h3>
     <div class="container">
-        <div id="login-row" class="row justify-content-center align-items-center">
-            <div id="login-column" class="col-md-6">
-                <div id="login-box" class="col-md-12">
-                    <form id="login-form" class="form" action="" method="POST">
-                        <h3 class="text-center text-primary">Login</h3>
+        <div id="register-row" class="row justify-content-center align-items-center">
+            <div id="register-column" class="col-md-6">
+                <div id="register-box" class="col-md-12">
+                    <form id="register-form" class="form" action="" method="POST">
+                        <h3 class="text-center text-primary">Register</h3>
                         <div class="form-group">
                             <label for="username" class="text-primary">Username:</label><br>
                             <input type="text" name="username" id="username" class="form-control">
@@ -25,12 +27,11 @@
                             <input type="text" name="password" id="password" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="remember-me" class="text-primary"><span>Remember me</span> <span><input
-                                        id="remember-me" name="remember-me" type="checkbox"></span></label><br>
-                            <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
+                            <label for="name" class="text-primary">Name:</label><br>
+                            <input type="text" name="name" id="name" class="form-control">
                         </div>
                         <div id="register-link" class="text-right">
-                            <a href="home" class="text-primary">Register here</a>
+                            <a href="login" class="text-primary">Already Have an Account?, Login Here!</a>
                         </div>
                     </form>
                 </div>
