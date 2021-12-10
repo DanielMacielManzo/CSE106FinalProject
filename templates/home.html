@@ -8,7 +8,7 @@
 <div class="card floating">
     <img src="/static/profile/profile_1.png" class="card-img-top" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
     <div class="card-body">
-        <a id="profilelink" class="btn btn-dark" href='userprofile'>{{name}}</a>
+        <a href="#" class="btn btn-dark profilelink" href='userprofile'>{{name}}</a>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">An item</li>
@@ -26,7 +26,29 @@
 {% endblock %}
 <!--  -->
 {% block content %}
+
+
+
+<div class="card post">
+    <h5 class="card-header">Create New Post</h5>
+    <div class="card-body">
+        <form id="newpost" class="form" action="" method="POST">
+            <div class="form-group">
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Text</span>
+                    </div>
+                    <textarea type="text" class="form-control" aria-label="With textarea"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-lg btn-info profilelink"><i class="bi bi-plus-square"></i> New Post</button>
+        </form>
+
+    </div>
+</div>
+
 <!-- feed -->
+
 
 <!-- post HTML content -->
 <div class="card post">
@@ -58,15 +80,12 @@
                     title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             </div>
         </div>
-
         <hr>
         <div class="postbottombar">
-            <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span class="badge badge-secondary">{%print(200)%}</span> </a>
+            <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span
+                    class="badge badge-secondary">{%print(200)%}</span> </a>
             <a href="#" class="btn btn-info"><i class="bi bi-reply"></i> Reply</a>
         </div>
-
-
-
     </div>
 </div>
 

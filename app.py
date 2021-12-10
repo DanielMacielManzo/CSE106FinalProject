@@ -120,7 +120,9 @@ def logout():
 @app.route('/home',methods=['GET','POST'])
 @login_required
 def home():
-    print(current_user.username)
+
+    if(request.method=="POST"):
+        print(request.data)
     
     return render_template("home.html", name=current_user.name)
 
@@ -128,7 +130,7 @@ def home():
 @app.route('/userprofile',methods=['GET','POST'])
 def userprofile():
 
-    return render_template("userprofile.html", name=current_user.name)
+    return render_template("userprofile.html", name=current_user.name, posts=testposts)
 
 if __name__ == '__main__':
     app.debug = True
