@@ -81,9 +81,7 @@ def creatUser():
             print("User Already Exists")
     return render_template("register.html")
 
-<<<<<<< Updated upstream
 #Login  function handler
-=======
 @app.route('/POSTS',methods=['POST,GET,DELETE'])
 def postAPI():
     if(request.method=="POST"):#TAKE a given string and insert to database then return list of users to posts to update using ajax  
@@ -100,7 +98,6 @@ def postAPI():
         post_id=request.form['post_id']
         Posts.query.filter_by(id=post_id)
         
->>>>>>> Stashed changes
 @app.route('/login',methods=['GET','POST'])
 def login():
     if(request.method=="POST"):
