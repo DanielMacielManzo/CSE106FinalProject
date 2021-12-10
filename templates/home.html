@@ -8,9 +8,7 @@
 <div class="card floating">
     <img src="/static/profile/profile_1.png" class="card-img-top" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
     <div class="card-body">
-        <h5 class="card-title">{{username}}</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-        </p>
+        <a id="profilelink" class="btn btn-dark" href='userprofile'>{{name}}</a>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">An item</li>
@@ -30,7 +28,46 @@
 {% block content %}
 <!-- feed -->
 
+<!-- post HTML content -->
+<div class="card post">
+    <div class="card-body">
+        <div class="postuserinfo">
+            <div class="postuserdivimage">
+                <img src="/static/profile/profile_4.png" class="postuserprofileimg" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
+                <h5 class="card-title">User name</h5>
+            </div>
+            <div class="postuserdivcontent">
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card
+                    title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+        <hr>
+        <h5 class="card-header"><i class="bi bi-reply"></i> Replies</h5>
+
+        <!-- post replies -->
+
+        <div class="replyuserinfo">
+            <div class="replyuserimagediv">
+                <img src="/static/profile/profile_7.png" class="postuserprofileimg" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
+                <h5 class="card-title">User name</h5>
+            </div>
+            <div class="replyusercontent">
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card
+                    title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+
+        <hr>
+        <div class="postbottombar">
+            <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span class="badge badge-secondary">{%print(200)%}</span> </a>
+            <a href="#" class="btn btn-info"><i class="bi bi-reply"></i> Reply</a>
+        </div>
 
 
+
+    </div>
+</div>
 
 {% endblock %}

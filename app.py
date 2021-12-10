@@ -60,7 +60,25 @@ admin.add_view(adminview(Posts,db.session))
 admin.add_view(adminview(Reply,db.session))
 admin.add_view(adminview(Likes,db.session))
 
+# Register function handler
+@app.route('/register',methods=['GET','POST'])
+def creatUser():
+    if(request.method=="POST"):
+        user=request.form['username']
+        passs=request.form['password']  
+        email=request.form['email'] 
+        name=request.form['name']
+        #
+        user = User(username=user,name=name,email=email,password=passs,user_type=2)
+        try:
+            db.session.add(user)
+            db.session.commit()
+            return redirect("login")
+        except:
+            print("User Already Exists")
+    return render_template("register.html")
 
+#Login  function handler
 @app.route('/login',methods=['GET','POST'])
 def login():
     if(request.method=="POST"):
@@ -88,40 +106,29 @@ def login():
             pass
     
     return render_template("login.html")
+
+#logout function
 @app.route('/logout', methods=['GET'])
 @login_required
 def logout():
     if(request.method=='GET'):
         logout_user()
         return redirect('/login')
-@app.route('/register',methods=['GET','POST'])
-def creatUser():
-    if(request.method=="POST"):
-        user=request.form['username']
-        passs=request.form['password']  
-        email=request.form['email'] 
-        name=request.form['name']
-        #
-        user = User(username=user,name=name,email=email,password=passs,user_type=2)
-        try:
-            db.session.add(user)
-            db.session.commit()
-            return redirect("login")
-        except:
-            print("User Already Exists")
-    return render_template("register.html")
 
+#home route
 @app.route('/',methods=['GET','POST'])
 @app.route('/home',methods=['GET','POST'])
 @login_required
 def home():
     print(current_user.username)
     
-    return render_template("home.html", username=current_user.username)
+    return render_template("home.html", name=current_user.name)
 
-@app.route('/register',methods=['GET','POST'])
-def register():
-    return render_template("register.html")
+#userprofile page
+@app.route('/userprofile',methods=['GET','POST'])
+def userprofile():
+
+    return render_template("userprofile.html", name=current_user.name)
 
 if __name__ == '__main__':
     app.debug = True

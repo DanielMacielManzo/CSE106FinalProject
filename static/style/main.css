@@ -14,6 +14,47 @@
     margin: 10px;
 }
 
+#profilelink {
+    width: 100%;
+}
+
+.postuserprofileimg {
+    width: 50px;
+}
+
+.post {
+    margin: 10px 0px;
+    width: 100%;
+}
+
+.postuserinfo {
+    display: flex;
+}
+
+.postuserdivimage {
+    margin-right: 10px;
+    min-width: 100px;
+}
+
+.postuserdivcontent {}
+
+.postbottombar {}
+
+.replyuserimagediv {
+    margin-right: 10px;
+    min-width: 100px;
+}
+
+.replyuserinfo {
+    margin-top: 10px;
+    display: flex;
+    justify-content: right;
+}
+
+.replyusercontent {
+    max-width: 80%;
+}
+
 
 /* #content {
     width: 100%;
