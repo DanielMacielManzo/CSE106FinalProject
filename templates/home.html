@@ -3,10 +3,34 @@
 {% block title %} Home Page {% endblock %}
 <!--  -->
 {% block sidebar %}
+
+
+<div class="card floating">
+    <img src="/static/profile/profile_1.png" class="card-img-top" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
+    <div class="card-body">
+        <h5 class="card-title">{{username}}</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
+        </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+    </ul>
+    <div class="card-body">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+    </div>
+</div>
+
+
 <p>TODO // Sidebar Extra Conent</p>
 {% endblock %}
 <!--  -->
 {% block content %}
-<span>2</span><span>2</span>
-<p>Content</p>
+<!-- feed -->
+
+
+
+
 {% endblock %}

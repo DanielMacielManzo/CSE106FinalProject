@@ -101,6 +101,7 @@ def creatUser():
         passs=request.form['password']  
         email=request.form['email'] 
         name=request.form['name']
+        #
         user = User(username=user,name=name,email=email,password=passs,user_type=2)
         try:
             db.session.add(user)
@@ -110,13 +111,13 @@ def creatUser():
             print("User Already Exists")
     return render_template("register.html")
 
-
+@app.route('/',methods=['GET','POST'])
 @app.route('/home',methods=['GET','POST'])
 @login_required
 def home():
     print(current_user.username)
     
-    return render_template("home.html")
+    return render_template("home.html", username=current_user.username)
 
 @app.route('/register',methods=['GET','POST'])
 def register():
