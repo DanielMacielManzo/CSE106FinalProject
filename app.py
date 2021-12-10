@@ -4,8 +4,10 @@ from flask_login import LoginManager, UserMixin
 from flask_login import login_required, logout_user, login_user, current_user
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from datetime import date
 
 app = Flask(__name__) 
+today = date.today()
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite3'
 db = SQLAlchemy(app)
@@ -26,6 +28,7 @@ class Posts(db.Model):#This is both replies to posts and posts them selfs replie
     head=db.Column(db.Boolean)#Represents if it is a reply or not for generating feed
     date=(db.String(30))#Can be used to sort feed by recenctcy 
     text=db.Column(db.String(30))
+    user_id=db.Column(db.Integer)
 class Reply(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     post_id=db.Column(db.Integer)
@@ -46,7 +49,7 @@ class adminview(ModelView):
         #print(current_user.user_type)
         try:
             if(int(current_user.user_type)==1):
-                print("TRUE")
+                #print("TRUE")
                 return current_user.is_authenticated
             else:
                 return False
@@ -78,7 +81,26 @@ def creatUser():
             print("User Already Exists")
     return render_template("register.html")
 
+<<<<<<< Updated upstream
 #Login  function handler
+=======
+@app.route('/POSTS',methods=['POST,GET,DELETE'])
+def postAPI():
+    if(request.method=="POST"):#TAKE a given string and insert to database then return list of users to posts to update using ajax  
+        post=request.form['POST_STRING']
+        insert=Posts(head=1,date=today.strftime("%d/%m/%Y"),text=post,user_id=current_user.id)
+        db.session.add(insert)
+        db.session.commit()
+        user_id = Posts.query.filter_by(user_id = current_user.id).all()
+        return user_id
+    if(request.method=="GET"):
+        user_id = Posts.query.filter_by(user_id = current_user.id).all()
+        return user_id        
+    if(request.method=="DELETE"):
+        post_id=request.form['post_id']
+        Posts.query.filter_by(id=post_id)
+        
+>>>>>>> Stashed changes
 @app.route('/login',methods=['GET','POST'])
 def login():
     if(request.method=="POST"):
@@ -111,6 +133,7 @@ def login():
 @app.route('/logout', methods=['GET'])
 @login_required
 def logout():
+    print(current_user.id)
     if(request.method=='GET'):
         logout_user()
         return redirect('/login')
