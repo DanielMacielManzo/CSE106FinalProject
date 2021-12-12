@@ -1,0 +1,5 @@
+flask==2.0.2
+flask_sqlalchemy==2.5.1
+flask_login==2.0.1
+flask_admin==1.5.8
+datetime==4.3
