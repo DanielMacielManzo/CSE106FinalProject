@@ -5,7 +5,6 @@ $(document).ready(function() {
 
     getUsernames();
 
-
     getPosts();
 
     $('#new_post').click(function() {
@@ -25,9 +24,52 @@ $(document).ready(function() {
             }
         });
     });
+
+    $("body").on("click", ".btnexpandreply", async function(event) {
+
+        try {
+            var postreply = await getReply(event.currentTarget.dataset.id)
+
+            for (let jdex = 0; jdex < Object.keys(postreply).length; jdex++) {
+
+                var replies_data = {
+                    REPLY_TEXT: postreply[jdex].text,
+                    REPLY_NAME: postreply[jdex].user_id
+                }
+
+                var replies_data_text
+
+                replies_data_text += postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
+                    return replies_data[token];
+                });
+
+                //console.log(replies_data_text)
+
+                var rows = htmlToElements(replies_data_text);
+
+                let get = '#replies_parent[data-id=\\' + event.currentTarget.dataset.id + ']'
+
+                console.log(get)
+                parent = document.querySelector(get);
+                document.querySelector(get).style.visibility = 'visible';
+
+                parent.appendChild(rows);
+
+            }
+
+
+
+        } catch (error) {
+            console.log('Error:', error);
+        }
+
+        // var rows = htmlToElement(result, response[index].id);
+        // parent = document.querySelector("#posts");
+        // parent.appendChild(rows);
+    });
 });
 
-function getuserbyID(user_id) {
+async function getuserbyID(user_id) {
     return $.ajax({
         url: "/getuserbyid",
         type: "post",
@@ -43,7 +85,7 @@ function getuserbyID(user_id) {
     });
 }
 
-function getReply(post_id) {
+async function getReply(post_id) {
     return $.ajax({
         url: "/getreplybyid",
         type: "post",
@@ -59,7 +101,7 @@ function getReply(post_id) {
     });
 }
 
-function getUsernames() {
+async function getUsernames() {
     $.ajax({
         url: "/getuser",
         type: "get",
@@ -94,31 +136,11 @@ async function getPosts() {
                 try {
                     let postuser = await getuserbyID(response[index].user_id);
 
-                    let postreply = await getReply(response[index].id)
-
-
-                    for (let jdex = 0; jdex < Object.keys(postreply).length; jdex++) {
-
-                        // console.log(postreply[jdex])
-
-                        var replies_data = {
-                            REPLY_TEXT: postreply[jdex].text,
-                            REPLY_NAME: postreply[jdex].user_id
-                        }
-
-                        var replies_data_text
-
-                        replies_data_text += postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
-                            return replies_data[token];
-                        });
-
-                    }
-
                     var data = {
                         TEXT: response[index].text,
                         NAME: postuser[0].name,
                         USER_ID: response[index].user_id,
-                        REPLIES: "POST ID " + response[index].id
+                        REPLIES: response[index].id
                     }
 
                 } catch (error) {
@@ -155,6 +177,13 @@ function htmlToElement(html, id) {
     return template.content.firstChild;
 }
 
+function htmlToElements(html) {
+    var template = document.createElement('template');
+    html = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = html;
+    return template.content.firstChild;
+}
+
 var post_template = `<div class="card post">
                                     <div class="card-body">
                                         <div class="postuserinfo">
@@ -169,8 +198,11 @@ var post_template = `<div class="card post">
                                             </div>
                                         </div>
                                         <hr>
-                                        <h5 class="card-header"><i class="bi bi-reply"></i> Replies </h5>
-                                        {REPLIES}
+                                        <h5 class="card-header">
+                                        <button id="button {REPLIES}" class="btn btn-sm btn-info btnexpandreply" data-id="{REPLIES}"><i class="bi bi-chevron-double-down"></i></button>
+                                        <i class="bi bi-reply"></i>Replies </h5>
+                                        <div id="replies_parent" style="visibility: hidden; data-id="{REPLIES}">{REPLIES}</div>
+                                        <hr>
                                         <div class="postbottombar">
                                             <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span
                                                     class="badge badge-secondary">{LIKES}</span> </a>
@@ -191,4 +223,4 @@ var postreply_template = `<!-- post replies -->
                                     <p class="card-text">{REPLY_TEXT}</p>
                                 </div>
                             </div>
-                            <hr>`
+                            `
