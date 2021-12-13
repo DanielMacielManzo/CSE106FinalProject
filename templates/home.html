@@ -21,72 +21,83 @@
     </div>
 </div>
 
-
 <p>TODO // Sidebar Extra Conent</p>
 {% endblock %}
 <!--  -->
 {% block content %}
 
-
-
+<!-- New Post -->
 <div class="card post">
     <h5 class="card-header">Create New Post</h5>
     <div class="card-body">
-        <form id="newpost" class="form" action="" method="POST">
+        <div class="form">
             <div class="form-group">
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Text</span>
                     </div>
-                    <textarea type="text" class="form-control" aria-label="With textarea"></textarea>
+                    <textarea id="new_post_text" type="text" class="form-control" aria-label="With textarea"></textarea>
                 </div>
             </div>
-            <button type="submit" class="btn btn-lg btn-info profilelink"><i class="bi bi-plus-square"></i> New Post</button>
-        </form>
+            <button id="new_post" class="btn btn-lg btn-info profilelink"><i class="bi bi-plus-square"></i> New
+                Post</button>
+        </div>
 
     </div>
 </div>
 
 <!-- feed -->
-
-
 <!-- post HTML content -->
-<div class="card post">
-    <div class="card-body">
-        <div class="postuserinfo">
-            <div class="postuserdivimage">
-                <img src="/static/profile/profile_4.png" class="postuserprofileimg" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
-                <h5 class="card-title">User name</h5>
+<div id="posts">
+</div>
+{% endblock %}
+<!-- Scripts -->
+{% block scripts %}
+<script src="static/scripts/posts.js"></script>
+{% endblock %}
+<!--  -->
+{% block templates %}
+<!--  -->
+<template id="post_template">
+    <div class="card post">
+        <div class="card-body">
+            <div class="postuserinfo">
+                <div class="postuserdivimage">
+                    <img src="/static/profile/profile_4.png" class="postuserprofileimg"
+                        alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
+                    <h5 id="post_user_id" class="card-title"> {USER_ID} </h5>
+                </div>
+                <div class="postuserdivcontent">
+                    <h6 is="post_date" class="card-subtitle mb-2 text-muted">{DATE} </h6>
+                    <p id="post_text" class="card-text">{TEXT}</p>
+                </div>
             </div>
-            <div class="postuserdivcontent">
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card
-                    title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-        <hr>
-        <h5 class="card-header"><i class="bi bi-reply"></i> Replies</h5>
+            <hr>
+            <h5 class="card-header"><i class="bi bi-reply"></i> Replies </h5>
 
-        <!-- post replies -->
+            <!-- post replies -->
 
-        <div class="replyuserinfo">
-            <div class="replyuserimagediv">
-                <img src="/static/profile/profile_7.png" class="postuserprofileimg" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
-                <h5 class="card-title">User name</h5>
+            <div class="replyuserinfo">
+                <div class="replyuserimagediv">
+                    <img src="/static/profile/profile_7.png" class="postuserprofileimg"
+                        alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
+                    <h5 class="card-title">User name</h5>
+                </div>
+                <div class="replyusercontent">
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content. Some quick example text to build on the card title and make up the bulk of the
+                        card's content. Some quick example text to build on the card
+                        title and make up the bulk of the card's content. Some quick example text to build on the card
+                        title and make up the bulk of the card's content.</p>
+                </div>
             </div>
-            <div class="replyusercontent">
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card
-                    title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <hr>
+            <div class="postbottombar">
+                <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span
+                        class="badge badge-secondary">{%print(200)%}</span> </a>
+                <a href="#" class="btn btn-info"><i class="bi bi-reply"></i> Reply</a>
             </div>
-        </div>
-        <hr>
-        <div class="postbottombar">
-            <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span
-                    class="badge badge-secondary">{%print(200)%}</span> </a>
-            <a href="#" class="btn btn-info"><i class="bi bi-reply"></i> Reply</a>
         </div>
     </div>
-</div>
-
-{% endblock %}
+</template> {% endblock %}
