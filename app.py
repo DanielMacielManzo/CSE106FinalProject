@@ -5,6 +5,7 @@ from flask_login import login_required, logout_user, login_user, current_user
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from datetime import date
+import random
 
 app = Flask(__name__) 
 today = date.today()
@@ -72,7 +73,7 @@ def creatUser():
         email=request.form['email'] 
         name=request.form['name']
         #
-        user = User(username=user,name=name,email=email,password=passs,user_type=2)
+        user = User(username=user,name=name,email=email,password=passs,user_type=2,image_link=random.randint(1,7)
         try:
             db.session.add(user)
             db.session.commit()
