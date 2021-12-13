@@ -106,23 +106,19 @@ async function getPosts() {
                             REPLY_NAME: postreply[jdex].user_id
                         }
 
-                        replies_data += postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
+                        var replies_data_text
+
+                        replies_data_text += postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
                             return replies_data[token];
                         });
 
-
-
-
                     }
-
-                    console.log((replies_data))
-
 
                     var data = {
                         TEXT: response[index].text,
                         NAME: postuser[0].name,
                         USER_ID: response[index].user_id,
-                        REPLIES: replies_data
+                        REPLIES: "POST ID " + response[index].id
                     }
 
                 } catch (error) {
@@ -135,7 +131,7 @@ async function getPosts() {
                     return data[token];
                 });
 
-                var rows = htmlToElement(result);
+                var rows = htmlToElement(result, response[index].id);
                 parent = document.querySelector("#posts");
                 parent.appendChild(rows);
 
@@ -150,10 +146,12 @@ async function getPosts() {
 }
 
 //New Post
-function htmlToElement(html) {
+function htmlToElement(html, id) {
     var template = document.createElement('template');
     html = html.trim(); // Never return a text node of whitespace as the result
     template.innerHTML = html;
+    template.content.firstChild.setAttribute("id", id);
+    //console.log(template.content.firstChild.id)
     return template.content.firstChild;
 }
 
