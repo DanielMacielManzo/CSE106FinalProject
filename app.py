@@ -128,13 +128,13 @@ def getReplies():
 
     user = Reply.query.filter_by(post_id=request.form['text']).all()
 
-    response = {}
+    arr=[]
 
-    for count, row in enumerate(user):
-        response[count] = {column: str(getattr(row, column))
-                        for column in row.__table__.c.keys()}
+    for i in user:
+        a=Posts.query.filter_by(id=i)
+        arr.append(a)
 
-    return jsonify(response)
+    return jsonify(a)
 
 
 @app.route('/getuser', methods=['GET'])
