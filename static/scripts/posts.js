@@ -25,7 +25,7 @@ $(document).ready(function() {
         });
     });
 
-    $("body").on("click", ".btnexpandreply", async function(event) {
+    $("#content").on("click", '.btnexpandreply', async function(event) {
 
         try {
             var postreply = await getReply(event.currentTarget.dataset.id)
@@ -46,11 +46,18 @@ $(document).ready(function() {
                 //console.log(replies_data_text)
 
                 var rows = htmlToElements(replies_data_text);
+                console.log((event.currentTarget.dataset.id))
 
-                let get = '#replies_parent[data-id=\\' + event.currentTarget.dataset.id + ']'
+                //console.log(CSS.escape(event.currentTarget.dataset.id))
+
+
+
+                let get = '[data-id=insert\\' + event.currentTarget.dataset.id + ']'
 
                 console.log(get)
+
                 parent = document.querySelector(get);
+
                 document.querySelector(get).style.visibility = 'visible';
 
                 parent.appendChild(rows);
@@ -125,7 +132,6 @@ async function getUsernames() {
 }
 
 async function getPosts() {
-
     $.ajax({
         url: "/posts",
         type: "get",
@@ -201,7 +207,7 @@ var post_template = `<div class="card post">
                                         <h5 class="card-header">
                                         <button id="button {REPLIES}" class="btn btn-sm btn-info btnexpandreply" data-id="{REPLIES}"><i class="bi bi-chevron-double-down"></i></button>
                                         <i class="bi bi-reply"></i>Replies </h5>
-                                        <div id="replies_parent" style="visibility: hidden; data-id="{REPLIES}">{REPLIES}</div>
+                                        <div id="replies_parent" style="visibility: hidden; data-id="insert{REPLIES}">{REPLIES}</div>
                                         <hr>
                                         <div class="postbottombar">
                                             <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span
