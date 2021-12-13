@@ -129,12 +129,17 @@ def getReplies():
     user = Reply.query.filter_by(post_id=request.form['text']).all()
 
     arr=[]
-
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer)
+    rep_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer)
+    text = db.Column(db.String(30))
     for i in user:
-        a=Posts.query.filter_by(id=i)
+        
+        a={"id":i.id,"post_id":i.post_id,"rep_id":i.rep_id,"user_id":i.user_id,"text":i.text}
         arr.append(a)
 
-    return jsonify(a)
+    return jsonify(arr)
 
 
 @app.route('/getuser', methods=['GET'])
