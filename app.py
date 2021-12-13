@@ -6,6 +6,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from datetime import date
 import json
+import random
 
 from werkzeug.utils import header_property
 
@@ -94,9 +95,8 @@ def creatUser():
         passs = request.form['password']
         email = request.form['email']
         name = request.form['name']
-        #
-        user = User(username=user, name=name, email=email,
-                    password=passs, user_type=2)
+
+        user = User(username=user,name=name,email=email,password=passs,user_type=2,image_link=random.randint(1,7))
         try:
             db.session.add(user)
             db.session.commit()
