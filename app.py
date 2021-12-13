@@ -134,7 +134,7 @@ def getReplies():
         a=Posts.query.filter_by(id=i)
         arr.append(a)
 
-    return jsonify(a)
+    return jsonify(arr)
 
 
 @app.route('/getuser', methods=['GET'])
