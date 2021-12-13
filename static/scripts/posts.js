@@ -43,8 +43,23 @@ function getuserbyID(user_id) {
     });
 }
 
-function getUsernames() {
+function getReply(post_id) {
+    return $.ajax({
+        url: "/getreplybyid",
+        type: "post",
+        data: { text: post_id },
+        success: function(response) {
 
+            return response;
+
+        },
+        error: function(xhr) {
+            //Do Something to handle error
+        }
+    });
+}
+
+function getUsernames() {
     $.ajax({
         url: "/getuser",
         type: "get",
@@ -65,7 +80,6 @@ function getUsernames() {
             //Do Something to handle error
         }
     });
-
 }
 
 async function getPosts() {
@@ -74,28 +88,53 @@ async function getPosts() {
         url: "/posts",
         type: "get",
         success: async function(response) {
-            console.log(users)
+            //console.log(response)
             for (let index = 0; index < Object.keys(response).length; index++) {
 
                 try {
                     let postuser = await getuserbyID(response[index].user_id);
 
-                    console.log(postuser[0].name)
+                    let postreply = await getReply(response[index].id)
+
+
+                    for (let jdex = 0; jdex < Object.keys(postreply).length; jdex++) {
+
+                        // console.log(postreply[jdex])
+
+                        var replies_data = {
+                            REPLY_TEXT: postreply[jdex].text,
+                            REPLY_NAME: postreply[jdex].user_id
+                        }
+
+                        replies_data += postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
+                            return replies_data[token];
+                        });
+
+
+
+
+                    }
+
+                    console.log((replies_data))
+
 
                     var data = {
                         TEXT: response[index].text,
                         NAME: postuser[0].name,
-                        USER_ID: response[index].user_id
+                        USER_ID: response[index].user_id,
+                        REPLIES: replies_data
                     }
+
                 } catch (error) {
                     console.log('Error:', error);
                 }
 
-
+                replies = {}
 
                 var result = post_template.replace(/\{(.*?)\}/g, function(match, token) {
                     return data[token];
                 });
+
                 var rows = htmlToElement(result);
                 parent = document.querySelector("#posts");
                 parent.appendChild(rows);
@@ -133,25 +172,7 @@ var post_template = `<div class="card post">
                                         </div>
                                         <hr>
                                         <h5 class="card-header"><i class="bi bi-reply"></i> Replies </h5>
-
-                                        <!-- post replies -->
-
-                                        <div class="replyuserinfo">
-                                            <div class="replyuserimagediv">
-                                                <img src="/static/profile/profile_7.png" class="postuserprofileimg"
-                                                    alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
-                                                <h5 class="card-title">User name</h5>
-                                            </div>
-                                            <div class="replyusercontent">
-                                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                                                    card's content. Some quick example text to build on the card title and make up the bulk of the
-                                                    card's content. Some quick example text to build on the card
-                                                    title and make up the bulk of the card's content. Some quick example text to build on the card
-                                                    title and make up the bulk of the card's content.</p>
-                                            </div>
-                                        </div>
-                                        <hr>
+                                        {REPLIES}
                                         <div class="postbottombar">
                                             <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span
                                                     class="badge badge-secondary">{LIKES}</span> </a>
@@ -159,3 +180,17 @@ var post_template = `<div class="card post">
                                         </div>
                                     </div>
                                     </div>`
+
+var postreply_template = `<!-- post replies -->
+                            <div class="replyuserinfo">
+                                <div class="replyuserimagediv">
+                                    <img src="/static/profile/profile_7.png" class="postuserprofileimg"
+                                        alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
+                                    <h5 class="card-title">{REPLY_NAME}</h5>
+                                </div>
+                                <div class="replyusercontent">
+                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                    <p class="card-text">{REPLY_TEXT}</p>
+                                </div>
+                            </div>
+                            <hr>`

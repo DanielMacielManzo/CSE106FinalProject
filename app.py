@@ -45,6 +45,8 @@ class Reply(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer)
     rep_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer)
+    text = db.Column(db.String(30))
 
 
 class Likes(db.Model):
@@ -119,6 +121,21 @@ def getUserID():
 
     return jsonify(response)
 
+@app.route('/getreplybyid', methods=['GET', 'POST'])
+def getReplies():
+    # TODO if statements to return filtered by user preference posts
+    # returns all posts
+
+    user = Reply.query.filter_by(post_id=request.form['text']).all()
+
+    response = {}
+
+    for count, row in enumerate(user):
+        response[count] = {column: str(getattr(row, column))
+                        for column in row.__table__.c.keys()}
+
+    return jsonify(response)
+
 
 @app.route('/getuser', methods=['GET'])
 def getUser():
@@ -155,6 +172,40 @@ def postAPI():
         # TODO if statements to return filtered by user preference posts
         # returns all posts
         posts = Posts.query.all()
+
+        response = {}
+
+        for count, row in enumerate(posts):
+            response[count] = {column: str(getattr(row, column))
+                               for column in row.__table__.c.keys()}
+
+        return jsonify(response)
+
+    if(request.method == "DELETE"):
+        post_id = request.form['post_id']
+        Posts.query.filter_by(id=post_id)
+
+
+
+@app.route('/userposts', methods=['POST', 'GET', 'DELETE'])
+def userpostAPI():
+    if(request.method == "POST"):  # TAKE a given string and insert to database then return list of users to posts to update using ajax
+        print("Text POST")
+        post = request.form['text']
+        insert = Posts(head=1, date=today.strftime("%d/%m/%Y"),
+                       text=post, user_id=current_user.id)
+        db.session.add(insert)
+        db.session.commit()
+        # user_id returns all posts for the user
+        user_id = Posts.query.filter_by(user_id=current_user.id).all()
+
+        # TODO update posts return something to the feed
+
+        return 'Post Created'
+    if(request.method == "GET"):
+        # TODO if statements to return filtered by user preference posts
+        # returns all posts
+        posts = Posts.query.filter_by(user_id=current_user.id).all()
 
         response = {}
 
