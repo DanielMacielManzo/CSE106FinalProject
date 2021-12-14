@@ -97,7 +97,26 @@ def git_update():
     return '', 200
 
 # Register function handler
-
+@app.route('/replay')
+def createreply():
+    user = current_user.id
+    parentpost=request.form['parrent']
+    text = request.form['text']
+    rep=Reply(post_id=parentpost,text=text,user_id=user)
+    try:
+        db.session.add(rep)
+        db.session.commit()
+        return redirect("login")
+    except:
+        print("User Already Exists")
+@app.route('/getCurrentuserPosts')
+def getcurrrentuserPosts():
+    a=Posts.query.filter_by(user_id=current_user.id)
+    arr=[]
+    for i in a:
+        c={"id":i.id,"head":i.head,"text":i.text,"user_id":i.user_id}
+        arr.append(c)
+    return jsonify(arr)
 
 @app.route('/register', methods=['GET', 'POST'])
 def creatUser():
@@ -138,11 +157,6 @@ def getReplies():
     user = Reply.query.filter_by(post_id=request.form['text']).all()
 
     arr=[]
-    id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer)
-    rep_id = db.Column(db.Integer)
-    user_id = db.Column(db.Integer)
-    text = db.Column(db.String(30))
     for i in user:
         
         a={"id":i.id,"post_id":i.post_id,"rep_id":i.rep_id,"user_id":i.user_id,"text":i.text}
@@ -178,7 +192,7 @@ def postAPI():
         db.session.commit()
         # user_id returns all posts for the user
         user_id = Posts.query.filter_by(user_id=current_user.id).all()
-
+        
         # TODO update posts return something to the feed
 
         return 'Post Created'
