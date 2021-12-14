@@ -97,7 +97,7 @@ def git_update():
     return '', 200
 
 # Register function handler
-@app.route('/replay')
+@app.route('/replay')#Creates a reply
 def createreply():
     user = current_user.id
     parentpost=request.form['parrent']
@@ -109,6 +109,7 @@ def createreply():
         return redirect("login")
     except:
         print("User Already Exists")
+
 @app.route('/getCurrentuserPosts')
 def getcurrrentuserPosts():
     a=Posts.query.filter_by(user_id=current_user.id)
@@ -158,8 +159,9 @@ def getReplies():
 
     arr=[]
     for i in user:
-        
-        a={"id":i.id,"post_id":i.post_id,"rep_id":i.rep_id,"user_id":i.user_id,"text":i.text}
+        user=User.query.filter_by(id=i.user_id).first()
+        print(user)
+        a={"id":i.id,"post_id":i.post_id,"rep_id":i.rep_id,"user_id":i.user_id,"text":i.text,"image_link":user.image_link}
         arr.append(a)
 
     return jsonify(arr)
