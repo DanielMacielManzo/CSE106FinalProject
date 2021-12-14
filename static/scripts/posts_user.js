@@ -50,7 +50,7 @@ $(document).ready(function() {
                     REPLY_USERNAME: postreply[jdex].user_name
                 }
 
-                console.log(postreply[jdex])
+                console.log(postreply)
 
                 var replies_data_text = postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
                     return replies_data[token];
@@ -99,7 +99,7 @@ async function getReply(post_id) {
         data: { text: post_id },
         success: function(response) {
 
-            //console.log(response)
+            console.log(response)
 
             return response;
         },
@@ -134,7 +134,7 @@ async function getUsernames() {
 
 async function getPosts() {
     $.ajax({
-        url: "/posts",
+        url: "/userposts",
         type: "get",
         success: async function(response) {
             //console.log(response)

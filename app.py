@@ -314,7 +314,7 @@ def info():
 @app.route('/userprofile', methods=['GET', 'POST'])
 def userprofile():
 
-    return render_template("userprofile.html", name=current_user.name, user_posts=Posts.query.filter_by(user_id=current_user.id).all())
+    return render_template("userprofile.html", id=current_user.id, name=current_user.name, picture=current_user.image_link, email=current_user.email, username=current_user.username)
 
 
 if __name__ == '__main__':
