@@ -7,6 +7,7 @@ from flask_admin.contrib.sqla import ModelView
 from datetime import date
 import json
 import random
+import git
 
 from werkzeug.utils import header_property
 
@@ -84,6 +85,16 @@ admin.add_view(adminview(User, db.session))
 admin.add_view(adminview(Posts, db.session))
 admin.add_view(adminview(Reply, db.session))
 admin.add_view(adminview(Likes, db.session))
+
+# Update website
+
+@app.route('/git_update', methods=['POST'])
+def git_update():
+    repo = git.Repo('./CSE106FinalProject')
+    origin = repo.remotes.origin
+    repo.create_head('main', origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+    origin.pull()
+    return '', 200
 
 # Register function handler
 
