@@ -109,8 +109,6 @@ def creatUser():
 def getUserID():
     # TODO if statements to return filtered by user preference posts
     # returns all posts
-
-    
     user = User.query.filter_by(id=request.form['text']).all()
 
     response = {}
