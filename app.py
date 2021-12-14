@@ -8,6 +8,7 @@ from datetime import date
 import json
 import random
 import git
+from passlib.hash import sha256_crypt
 
 from werkzeug.utils import header_property
 
@@ -28,7 +29,7 @@ class User(UserMixin, db.Model):  # User and profile
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True)
     name = db.Column(db.String(30))
-    password = db.Column(db.String(30))
+    password = db.Column(db.String(3000))
     image_link = db.Column(db.String(30))
     email = db.Column(db.String(30))
     user_type = db.Column(db.Integer)
@@ -99,6 +100,7 @@ def git_update():
 # Register function handler
 @app.route('/reply', methods=['GET', 'POST'])#Creates a reply
 def createreply():
+
     user = current_user.id
     parentpost=request.form['parent']
     text = request.form['text']
@@ -127,7 +129,7 @@ def creatUser():
         passs = request.form['password']
         email = request.form['email']
         name = request.form['name']
-
+        passs=sha256_crypt.encrypt(passs)
         user = User(username=user,name=name,email=email,password=passs,user_type=2,image_link=random.randint(1,7))
         try:
             db.session.add(user)
@@ -262,7 +264,8 @@ def login():
             session.pop('user_id', None)
             user = User.query.filter_by(username=user).first()
             print(user.user_type)
-            if(user.password == passs):
+            if(sha256_crypt.verify(passs,user.password)):
+                print("AAAAA")
                 session['user_id'] = user.id
                 login_user(user)
                 if(int(user.user_type) == 1):
@@ -274,7 +277,9 @@ def login():
             else:
                 print("Wrong Password")
         except:
+            
             print("User does not exist")
+            
             pass
 
     return render_template("login.html")
