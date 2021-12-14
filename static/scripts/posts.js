@@ -34,6 +34,24 @@ $(document).ready(function() {
         });
     });
 
+    $("#content").on("click", '.btnsubmitreply', async function(event) {
+
+        try {
+
+            //console.log(event.currentTarget.previousElementSibling.classList[1])
+
+            var parent = event.currentTarget.previousElementSibling.classList[1];
+
+            parent = parent.replace('post', '');
+
+            var sumbit = await postReply(event.currentTarget.previousElementSibling.lastElementChild.value, parent)
+
+        } catch (error) {
+            console.log('Error:', error);
+        }
+
+    });
+
     $("#content").on("click", '.btnexpandreply', async function(event) {
 
         try {
@@ -50,7 +68,7 @@ $(document).ready(function() {
                     REPLY_USERNAME: postreply[jdex].user_name
                 }
 
-                console.log(postreply[jdex])
+                //console.log(postreply[jdex])
 
                 var replies_data_text = postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
                     return replies_data[token];
@@ -132,6 +150,24 @@ async function getUsernames() {
     });
 }
 
+async function postReply(text, parent) {
+
+    return $.ajax({
+        url: "/reply",
+        type: "post",
+        data: { text: text, parent: parent },
+        success: function(response) {
+
+            return response;
+
+        },
+        error: function(xhr) {
+            //Do Something to handle error
+        }
+    });
+
+}
+
 async function getPosts() {
     $.ajax({
         url: "/posts",
@@ -143,7 +179,7 @@ async function getPosts() {
                 try {
                     let postuser = await getuserbyID(response[index].user_id);
 
-                    //console.log(postuser[0])
+                    //console.log()
 
 
                     var data = {
@@ -151,7 +187,9 @@ async function getPosts() {
                         NAME: postuser[0].name,
                         USER_ID: response[index].user_id,
                         REPLIES: response[index].id,
-                        IMAGE_SRC: '/static/profile/profile_' + postuser[0].image_link + '.png'
+                        IMAGE_SRC: '/static/profile/profile_' + postuser[0].image_link + '.png',
+                        USERNAME: postuser[0].username,
+                        POST_ID: response[index].id
                     }
 
                 } catch (error) {
@@ -204,7 +242,7 @@ var post_template = `<div class="card post">
                                                 <h5 id="post_user_id" class="card-title"> {NAME} </h5>
                                             </div>
                                             <div class="postuserdivcontent">
-                                                <h6 is="post_date" class="card-subtitle mb-2 text-muted">{USER_ID} </h6>
+                                                <h6 is="post_date" class="card-subtitle mb-2 text-muted">{USERNAME} </h6>
                                                 <p id="post_text" class="card-text">{TEXT}</p>
                                             </div>
                                         </div>
@@ -215,9 +253,16 @@ var post_template = `<div class="card post">
                                         <div id="replies_parent" style="visibility: hidden; data-id="insert">{REPLIES}</div>
                                         <hr>
                                         <div class="postbottombar">
-                                            <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span
+                                            <div class="card-body">
+                                            <div class="form">
+                                                <div class="form-group post{POST_ID}">
+                                                    <textarea id="newReply" type="text" class="form-control" aria-label="With textarea"></textarea>
+                                                </div>
+                                                <button id="reply" class="btn btn-info btnsubmitreply"><i class="bi bi-reply"></i> Reply</button>
+                                                    <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span
                                                     class="badge badge-secondary">{LIKES}</span> </a>
-                                            <a href="#" class="btn btn-info"><i class="bi bi-reply"></i> Reply</a>
+                                            </div>
+                                            </div>
                                         </div>
                                     </div>
                                     </div>`

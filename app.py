@@ -97,10 +97,10 @@ def git_update():
     return '', 200
 
 # Register function handler
-@app.route('/replay')#Creates a reply
+@app.route('/reply', methods=['GET', 'POST'])#Creates a reply
 def createreply():
     user = current_user.id
-    parentpost=request.form['parrent']
+    parentpost=request.form['parent']
     text = request.form['text']
     rep=Reply(post_id=parentpost,text=text,user_id=user)
     try:
