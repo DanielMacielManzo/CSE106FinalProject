@@ -268,6 +268,8 @@ def logout():
 
 
 @app.route('/', methods=['GET', 'POST'])
+def mainPage():
+    return render_template("login.html")
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
