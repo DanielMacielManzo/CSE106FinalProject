@@ -36,16 +36,16 @@ $(document).ready(function() {
 
                 var replies_data = {
                     REPLY_TEXT: postreply[jdex].text,
-                    REPLY_NAME: postreply[jdex].user_id
+                    REPLY_NAME: postreply[jdex].user_name
                 }
 
-                console.log(replies_data)
+                //console.log(replies_data)
 
                 var replies_data_text = postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
                     return replies_data[token];
                 });
 
-                console.log(replies_data_text)
+                //console.log(replies_data_text)
 
                 var rows = htmlToElements(replies_data_text);
 
