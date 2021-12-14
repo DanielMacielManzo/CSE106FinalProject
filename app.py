@@ -115,6 +115,7 @@ def getcurrrentuserPosts():
     a=Posts.query.filter_by(user_id=current_user.id)
     arr=[]
     for i in a:
+        
         c={"id":i.id,"head":i.head,"text":i.text,"user_id":i.user_id}
         arr.append(c)
     return jsonify(arr)
@@ -161,7 +162,7 @@ def getReplies():
     for i in user:
         user=User.query.filter_by(id=i.user_id).first()
         print(user)
-        a={"id":i.id,"post_id":i.post_id,"rep_id":i.rep_id,"user_id":i.user_id,"text":i.text,"image_link":user.image_link,"user_name":user.username}
+        a={"id":i.id,"post_id":i.post_id,"rep_id":i.rep_id,"user_id":i.user_id,"text":i.text,"image_link":user.image_link,"user_name":user.username,"name":user.name}
         arr.append(a)
 
     return jsonify(arr)
