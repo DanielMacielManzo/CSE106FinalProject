@@ -30,6 +30,8 @@ $(document).ready(function() {
         try {
             var postreply = await getReply(event.currentTarget.dataset.id)
 
+            var parent = event.currentTarget.parentElement
+
             for (let jdex = 0; jdex < Object.keys(postreply).length; jdex++) {
 
                 var replies_data = {
@@ -37,28 +39,15 @@ $(document).ready(function() {
                     REPLY_NAME: postreply[jdex].user_id
                 }
 
-                var replies_data_text
+                console.log(replies_data)
 
-                replies_data_text += postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
+                var replies_data_text = postreply_template.replace(/\{(.*?)\}/g, function(match, token) {
                     return replies_data[token];
                 });
 
-                //console.log(replies_data_text)
+                console.log(replies_data_text)
 
                 var rows = htmlToElements(replies_data_text);
-                console.log((event.currentTarget.dataset.id))
-
-                //console.log(CSS.escape(event.currentTarget.dataset.id))
-
-
-
-                let get = '[data-id=insert\\' + event.currentTarget.dataset.id + ']'
-
-                console.log(get)
-
-                parent = document.querySelector(get);
-
-                document.querySelector(get).style.visibility = 'visible';
 
                 parent.appendChild(rows);
 
@@ -99,8 +88,9 @@ async function getReply(post_id) {
         data: { text: post_id },
         success: function(response) {
 
-            return response;
+            console.log(response)
 
+            return response;
         },
         error: function(xhr) {
             //Do Something to handle error
@@ -204,10 +194,10 @@ var post_template = `<div class="card post">
                                             </div>
                                         </div>
                                         <hr>
-                                        <h5 class="card-header">
+                                        <div class="card-header">
                                         <button id="button {REPLIES}" class="btn btn-sm btn-info btnexpandreply" data-id="{REPLIES}"><i class="bi bi-chevron-double-down"></i></button>
-                                        <i class="bi bi-reply"></i>Replies </h5>
-                                        <div id="replies_parent" style="visibility: hidden; data-id="insert{REPLIES}">{REPLIES}</div>
+                                        <i class="bi bi-reply"></i>Replies </div>
+                                        <div id="replies_parent" style="visibility: hidden; data-id="insert">{REPLIES}</div>
                                         <hr>
                                         <div class="postbottombar">
                                             <a href="#" class="btn btn-info"><i class="bi bi-hand-thumbs-up"></i> Like <span
@@ -217,8 +207,9 @@ var post_template = `<div class="card post">
                                     </div>
                                     </div>`
 
-var postreply_template = `<!-- post replies -->
+var postreply_template = `
                             <div class="replyuserinfo">
+                                <hr>
                                 <div class="replyuserimagediv">
                                     <img src="/static/profile/profile_7.png" class="postuserprofileimg"
                                         alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
@@ -228,5 +219,6 @@ var postreply_template = `<!-- post replies -->
                                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
                                     <p class="card-text">{REPLY_TEXT}</p>
                                 </div>
+                                <hr>
                             </div>
                             `

@@ -48,7 +48,7 @@
 .replyuserinfo {
     margin-top: 10px;
     display: flex;
-    justify-content: right;
+    justify-content: left;
 }
 
 .replyusercontent {
