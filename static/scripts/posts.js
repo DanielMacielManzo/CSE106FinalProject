@@ -7,6 +7,15 @@ $(document).ready(function() {
 
     getPosts();
 
+    var src = document.getElementById("imagediv");
+
+    var img = document.createElement('img');
+    img.className = "card-img-top"
+    img.src = '/static/profile/profile_' + src.innerHTML + '.png';
+
+    src.appendChild(img);
+
+    // <img src="/static/profile/profile_1.png" class="card-img-top" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE"></img>
     $('#new_post').click(function() {
         var text = $('#new_post_text').val();
         $.ajax({

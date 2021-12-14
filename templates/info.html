@@ -4,26 +4,54 @@
 <!--  -->
 {% block sidebar %}
 
+
 <div class="card floating">
     <img src="/static/profile/profile_1.png" class="card-img-top" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
     <div class="card-body">
-      <a href="info" class="bi bi-info-square">{{Info}}</a>
+        <a href="userprofile" class="btn btn-dark profilelink" href='userprofile'>{{name}}</a>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Bio: {{bio}}</li>
+        <li class="list-group-item">Username: {{username}}</li>
+        <li class="list-group-item">Email: {{email}}</li>
+    </ul>
+    <div class="card-body">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
     </div>
 </div>
+
+<p>TODO // Sidebar Extra Conent</p>
+{% endblock %}
+<!--  -->
+{% block content %}
+
+<div class="card floating">
+    <img style="width: 200px; align-self: center;" src="/static/extra/collaboration.png" class="card-img-top" alt="WHEN LOGGED IN IT SHOULD SHOW PROFILE IMAGE">
+    <div class="card-body">
+        <a href="info" class="bi bi-info-square">{{Info}}</a>
+    </div>
+</div>
+
 <head>
     <title>
         More Information!
     </title>
 </head>
-<body>
-<h1> About Our Project: </h1>
- <p> Our project was to challenge ourselves by creating an original web application within a team. After brainstorming
-     several ideas we came up with the idea to develop a web application that makes it easier to connect students with
-     faculty members at their respective schools. Inspired by twitter we created a home feed for the users of the
-     application to socialize and connect with members of their school. The application delivers a home page, which
-     contains the feed. A profile page, which users can customize their experience and their appearance on the app.
-     And lastly, this page which details more information about the project itself. We chose to create this web
-     application to bring an easier method of creating the necessary relationships with professors, faculty and other
-     staff members between students that could benefit and propel their academic success and even provide potential
-     opportunities after obtaining their degrees.</p>
 
+<body>
+    <h1> About Our Project: </h1>
+    <p> Our project was to challenge ourselves by creating an original web application within a team. After brainstorming several ideas we came up with the idea to develop a web application that makes it easier to connect students with faculty members at
+        their respective schools. Inspired by twitter we created a home feed for the users of the application to socialize and connect with members of their school. The application delivers a home page, which contains the feed. A profile page, which users
+        can customize their experience and their appearance on the app. And lastly, this page which details more information about the project itself. We chose to create this web application to bring an easier method of creating the necessary relationships
+        with professors, faculty and other staff members between students that could benefit and propel their academic success and even provide potential opportunities after obtaining their degrees.</p>
+
+    {% endblock %}
+    <!-- Scripts -->
+    {% block scripts %}
+    <script src="static/scripts/posts.js"></script>
+    {% endblock %}
+    <!--  -->
+    {% block templates %}
+    <!--  -->
+    {% endblock %}

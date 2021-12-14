@@ -299,7 +299,14 @@ def mainPage():
 @login_required
 def home():
 
-    return render_template("home.html", name=current_user.name, picture=current_user.image_link, email=current_user.email, username=current_user.username)
+    return render_template("home.html", id=current_user.id, name=current_user.name, picture=current_user.image_link, email=current_user.email, username=current_user.username)
+
+@app.route('/info', methods=['GET', 'POST'])
+@login_required
+def info():
+
+    return render_template("info.html", id=current_user.id, name=current_user.name, picture=current_user.image_link, email=current_user.email, username=current_user.username)
+
 
 # userprofile page
 
